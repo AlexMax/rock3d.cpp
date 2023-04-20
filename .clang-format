@@ -1,0 +1,5 @@
+BasedOnStyle: Microsoft
+
+AlwaysBreakTemplateDeclarations: Yes
+InsertBraces: True
+SortIncludes: Never
