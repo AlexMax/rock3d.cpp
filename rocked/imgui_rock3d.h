@@ -11,7 +11,7 @@
 namespace rocked
 {
 
-class ImGuiRock final
+class RockImGui final
 {
   protected:
     uint8_t m_view = 255;
@@ -20,12 +20,12 @@ class ImGuiRock final
     bgfx::UniformHandle m_cAttribLocationTex = BGFX_INVALID_HANDLE;
     bgfx::VertexLayout m_cVertexLayout;
 
-    auto ImGuiRock::CreateFontsTexture() -> bool;
+    auto RockImGui::CreateFontsTexture() -> bool;
 
   public:
-    ROCK3D_NOCOPY(ImGuiRock);
+    ROCK3D_NOCOPY(RockImGui);
 
-    ImGuiRock()
+    RockImGui()
     {
     }
 

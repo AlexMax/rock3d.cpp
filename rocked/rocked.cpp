@@ -12,7 +12,7 @@ class EditorApp final : public rock3d::App
 {
     static constexpr rock3d::App::config_s CONFIG{1000 / 60, 1000 / 4};
 
-    ImGuiRock m_cImGuiRock;
+    RockImGui m_cRockImGui;
 
   public:
     auto Config() -> const rock3d::App::config_s & override
@@ -30,7 +30,7 @@ class EditorApp final : public rock3d::App
         ImGuiViewport *main_viewport = ImGui::GetMainViewport();
         main_viewport->PlatformHandleRaw = rock3d::GetPlatform().WindowHandle();
 
-        m_cImGuiRock.Init(0);
+        m_cRockImGui.Init(0);
     }
 
     auto Tick(const tickParams_s &cParams) -> void override
@@ -44,18 +44,18 @@ class EditorApp final : public rock3d::App
         io.DisplaySize.x = res.x;
         io.DisplaySize.y = res.y;
 
-        m_cImGuiRock.NewFrame();
+        m_cRockImGui.NewFrame();
         ImGui::NewFrame();
         ImGui::ShowDemoWindow();
         ImGui::Render();
-        m_cImGuiRock.RenderDrawLists(ImGui::GetDrawData());
+        m_cRockImGui.RenderDrawLists(ImGui::GetDrawData());
 
         bgfx::frame();
     }
 
     auto Shutdown() -> void override
     {
-        m_cImGuiRock.Shutdown();
+        m_cRockImGui.Shutdown();
     }
 };
 

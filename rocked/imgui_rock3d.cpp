@@ -17,7 +17,7 @@ namespace rocked
 
 // *****************************************************************************
 
-auto ImGuiRock::CreateFontsTexture() -> bool
+auto RockImGui::CreateFontsTexture() -> bool
 {
     // Build texture atlas
     ImGuiIO &io = ImGui::GetIO();
@@ -37,21 +37,21 @@ auto ImGuiRock::CreateFontsTexture() -> bool
 
 // *****************************************************************************
 
-auto ImGuiRock::Init(const int view) -> void
+auto RockImGui::Init(const int view) -> void
 {
     m_view = (uint8_t)(view & 0xff);
 }
 
 // *****************************************************************************
 
-auto ImGuiRock::Shutdown() -> void
+auto RockImGui::Shutdown() -> void
 {
     InvalidateDeviceObjects();
 }
 
 // *****************************************************************************
 
-auto ImGuiRock::NewFrame() -> void
+auto RockImGui::NewFrame() -> void
 {
     if (!bgfx::isValid(m_cFontTexture))
     {
@@ -61,7 +61,7 @@ auto ImGuiRock::NewFrame() -> void
 
 // *****************************************************************************
 
-auto ImGuiRock::RenderDrawLists(ImDrawData *draw_data) -> void
+auto RockImGui::RenderDrawLists(ImDrawData *draw_data) -> void
 {
     // This is the main rendering function that you have to implement and call after
     // ImGui::Render(). Pass ImGui::GetDrawData() to this function.
@@ -149,7 +149,7 @@ auto ImGuiRock::RenderDrawLists(ImDrawData *draw_data) -> void
 
 // *****************************************************************************
 
-auto ImGuiRock::CreateDeviceObjects() -> bool
+auto RockImGui::CreateDeviceObjects() -> bool
 {
     const auto maybeVert = rock3d::GetResource().ReadToBuffer("shaders/spirv15-12/vs_ocornut_imgui.sc.bin");
     const auto maybeFrag = rock3d::GetResource().ReadToBuffer("shaders/spirv15-12/fs_ocornut_imgui.sc.bin");
@@ -180,7 +180,7 @@ auto ImGuiRock::CreateDeviceObjects() -> bool
 
 // *****************************************************************************
 
-auto ImGuiRock::InvalidateDeviceObjects() -> void
+auto RockImGui::InvalidateDeviceObjects() -> void
 {
     bgfx::destroy(m_cAttribLocationTex);
     bgfx::destroy(m_cShaderHandle);
