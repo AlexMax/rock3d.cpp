@@ -3,16 +3,16 @@
  * Copyright (C) 2018 Lexi Mayfield <alexmax2742@gmail.com>
  */
 
-#include "rock3d.h"
+#include "rocked.h"
 
-#include "imgui.h"
-#include "imgui_impl_bgfx.h"
-
-#include "bgfx/bgfx.h"
+namespace rocked
+{
 
 class EditorApp final : public rock3d::App
 {
     static constexpr rock3d::App::config_s CONFIG{1000 / 60, 1000 / 4};
+
+    ImGuiRock m_cImGuiRock;
 
   public:
     auto Config() -> const rock3d::App::config_s & override
@@ -30,7 +30,7 @@ class EditorApp final : public rock3d::App
         ImGuiViewport *main_viewport = ImGui::GetMainViewport();
         main_viewport->PlatformHandleRaw = rock3d::GetPlatform().WindowHandle();
 
-        ImGui_Implbgfx_Init(0);
+        m_cImGuiRock.Init(0);
     }
 
     auto Tick(const tickParams_s &cParams) -> void override
@@ -44,19 +44,23 @@ class EditorApp final : public rock3d::App
         io.DisplaySize.x = res.x;
         io.DisplaySize.y = res.y;
 
-        ImGui_Implbgfx_NewFrame();
+        m_cImGuiRock.NewFrame();
         ImGui::NewFrame();
         ImGui::ShowDemoWindow();
         ImGui::Render();
-        ImGui_Implbgfx_RenderDrawLists(ImGui::GetDrawData());
+        m_cImGuiRock.RenderDrawLists(ImGui::GetDrawData());
 
         bgfx::frame();
     }
 
     auto Shutdown() -> void override
     {
-        ImGui_Implbgfx_Shutdown();
+        m_cImGuiRock.Shutdown();
     }
 };
 
-DEFINE_APPLICATION(EditorApp);
+} // namespace rocked
+
+std::unique_ptr<rock3d::App> g_cDefinedApp{new rocked::EditorApp()};
+
+// DEFINE_APPLICATION(rocked::EditorApp);

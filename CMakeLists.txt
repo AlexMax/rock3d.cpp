@@ -39,9 +39,8 @@ target_link_libraries(rock3d
     $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>)
 
 add_executable(rocked WIN32
-    "rocked/main.cpp"
-    "rocked/imgui_impl_bgfx.cpp"    "rocked/imgui_impl_bgfx.h"
-    "rocked/imgui_impl_sdl2.cpp"    "rocked/imgui_impl_sdl2.h")
+    "rocked/rocked.cpp"         "rocked/rocked.h"
+    "rocked/imgui_rock3d.cpp"   "rocked/imgui_rock3d.h")
 target_compile_features(rocked PRIVATE cxx_std_17)
 
 target_link_libraries(rocked PRIVATE rock3d)

@@ -1,41 +1,74 @@
+/*
+ * rock3d.cpp: A 3D game engine for making retro FPS games
+ * Copyright (C) 2018 Lexi Mayfield <alexmax2742@gmail.com>
+ */
+
 // Derived from this Gist by Richard Gale:
 //     https://gist.github.com/RichardGale/6e2b74bc42b3005e08397236e4be0fd0
 
-// ImGui BFFX binding
-// In this binding, ImTextureID is used to store an OpenGL 'GLuint' texture
-// identifier. Read the FAQ about ImTextureID in imgui.cpp.
-
-// You can copy and use unmodified imgui_impl_* files in your project. See
-// main.cpp for an example of using this. If you use this binding you'll need to
-// call 4 functions: ImGui_ImplXXXX_Init(), ImGui_ImplXXXX_NewFrame(),
-// ImGui::Render() and ImGui_ImplXXXX_Shutdown(). If you are new to ImGui, see
-// examples/README.txt and documentation at the top of imgui.cpp.
-// https://github.com/ocornut/imgui
-
-#include "rock3d.h"
-
-#include "imgui_impl_bgfx.h"
-#include "imgui.h"
+#include "rocked.h"
 
 // BGFX/BX
-#include "bgfx/bgfx.h"
 #include "bx/math.h"
 #include "bx/timer.h"
 
-// Data
-static uint8_t g_View = 255;
-static bgfx::TextureHandle g_FontTexture = BGFX_INVALID_HANDLE;
-static bgfx::ProgramHandle g_ShaderHandle = BGFX_INVALID_HANDLE;
-static bgfx::UniformHandle g_AttribLocationTex = BGFX_INVALID_HANDLE;
-static bgfx::VertexLayout g_VertexLayout;
-
-// This is the main rendering function that you have to implement and call after
-// ImGui::Render(). Pass ImGui::GetDrawData() to this function.
-// Note: If text or lines are blurry when integrating ImGui into your engine,
-// in your Render function, try translating your projection matrix by
-// (0.5f,0.5f) or (0.375f,0.375f)
-void ImGui_Implbgfx_RenderDrawLists(ImDrawData *draw_data)
+namespace rocked
 {
+
+// *****************************************************************************
+
+auto ImGuiRock::CreateFontsTexture() -> bool
+{
+    // Build texture atlas
+    ImGuiIO &io = ImGui::GetIO();
+    unsigned char *pixels;
+    int width, height;
+    io.Fonts->GetTexDataAsRGBA32(&pixels, &width, &height);
+
+    // Upload texture to graphics system
+    m_cFontTexture = bgfx::createTexture2D((uint16_t)width, (uint16_t)height, false, 1, bgfx::TextureFormat::BGRA8, 0,
+                                           bgfx::copy(pixels, width * height * 4));
+
+    // Store our identifier
+    io.Fonts->TexID = (void *)(intptr_t)m_cFontTexture.idx;
+
+    return true;
+}
+
+// *****************************************************************************
+
+auto ImGuiRock::Init(const int view) -> void
+{
+    m_view = (uint8_t)(view & 0xff);
+}
+
+// *****************************************************************************
+
+auto ImGuiRock::Shutdown() -> void
+{
+    InvalidateDeviceObjects();
+}
+
+// *****************************************************************************
+
+auto ImGuiRock::NewFrame() -> void
+{
+    if (!bgfx::isValid(m_cFontTexture))
+    {
+        CreateDeviceObjects();
+    }
+}
+
+// *****************************************************************************
+
+auto ImGuiRock::RenderDrawLists(ImDrawData *draw_data) -> void
+{
+    // This is the main rendering function that you have to implement and call after
+    // ImGui::Render(). Pass ImGui::GetDrawData() to this function.
+    // Note: If text or lines are blurry when integrating ImGui into your engine,
+    // in your Render function, try translating your projection matrix by
+    // (0.5f,0.5f) or (0.375f,0.375f)
+
     // Avoid rendering when minimized, scale coordinates for retina displays
     // (screen coordinates != framebuffer coordinates)
     ImGuiIO &io = ImGui::GetIO();
@@ -58,8 +91,8 @@ void ImGui_Implbgfx_RenderDrawLists(ImDrawData *draw_data)
     // Setup viewport, orthographic projection matrix
     float ortho[16];
     bx::mtxOrtho(ortho, 0.0f, io.DisplaySize.x, io.DisplaySize.y, 0.0f, 0.0f, 1000.0f, 0.0f, caps->homogeneousDepth);
-    bgfx::setViewTransform(g_View, NULL, ortho);
-    bgfx::setViewRect(g_View, 0, 0, (uint16_t)fb_width, (uint16_t)fb_height);
+    bgfx::setViewTransform(m_view, NULL, ortho);
+    bgfx::setViewRect(m_view, 0, 0, (uint16_t)fb_width, (uint16_t)fb_height);
 
     // Render command lists
     for (int n = 0; n < draw_data->CmdListsCount; n++)
@@ -72,14 +105,14 @@ void ImGui_Implbgfx_RenderDrawLists(ImDrawData *draw_data)
         uint32_t numVertices = (uint32_t)cmd_list->VtxBuffer.size();
         uint32_t numIndices = (uint32_t)cmd_list->IdxBuffer.size();
 
-        if ((numVertices != bgfx::getAvailTransientVertexBuffer(numVertices, g_VertexLayout)) ||
+        if ((numVertices != bgfx::getAvailTransientVertexBuffer(numVertices, m_cVertexLayout)) ||
             (numIndices != bgfx::getAvailTransientIndexBuffer(numIndices)))
         {
             // not enough space in transient buffer, quit drawing the rest...
             break;
         }
 
-        bgfx::allocTransientVertexBuffer(&tvb, numVertices, g_VertexLayout);
+        bgfx::allocTransientVertexBuffer(&tvb, numVertices, m_cVertexLayout);
         bgfx::allocTransientIndexBuffer(&tib, numIndices);
 
         ImDrawVert *verts = (ImDrawVert *)tvb.data;
@@ -105,34 +138,18 @@ void ImGui_Implbgfx_RenderDrawLists(ImDrawData *draw_data)
 
                 bgfx::setState(state);
                 bgfx::TextureHandle texture = {(uint16_t)((intptr_t)pcmd->TextureId & 0xffff)};
-                bgfx::setTexture(0, g_AttribLocationTex, texture);
+                bgfx::setTexture(0, m_cAttribLocationTex, texture);
                 bgfx::setVertexBuffer(0, &tvb, 0, numVertices);
                 bgfx::setIndexBuffer(&tib, pcmd->IdxOffset, pcmd->ElemCount);
-                bgfx::submit(g_View, g_ShaderHandle);
+                bgfx::submit(m_view, m_cShaderHandle);
             }
         }
     }
 }
 
-bool ImGui_Implbgfx_CreateFontsTexture()
-{
-    // Build texture atlas
-    ImGuiIO &io = ImGui::GetIO();
-    unsigned char *pixels;
-    int width, height;
-    io.Fonts->GetTexDataAsRGBA32(&pixels, &width, &height);
+// *****************************************************************************
 
-    // Upload texture to graphics system
-    g_FontTexture = bgfx::createTexture2D((uint16_t)width, (uint16_t)height, false, 1, bgfx::TextureFormat::BGRA8, 0,
-                                          bgfx::copy(pixels, width * height * 4));
-
-    // Store our identifier
-    io.Fonts->TexID = (void *)(intptr_t)g_FontTexture.idx;
-
-    return true;
-}
-
-bool ImGui_Implbgfx_CreateDeviceObjects()
+auto ImGuiRock::CreateDeviceObjects() -> bool
 {
     const auto maybeVert = rock3d::GetResource().ReadToBuffer("shaders/spirv15-12/vs_ocornut_imgui.sc.bin");
     const auto maybeFrag = rock3d::GetResource().ReadToBuffer("shaders/spirv15-12/fs_ocornut_imgui.sc.bin");
@@ -146,48 +163,34 @@ bool ImGui_Implbgfx_CreateDeviceObjects()
     const bgfx::Memory *frag = bgfx::copy(maybeFrag.value().data(), maybeFrag.value().size());
 
     bgfx::RendererType::Enum type = bgfx::getRendererType();
-    g_ShaderHandle = bgfx::createProgram(bgfx::createShader(vert), bgfx::createShader(frag), true);
+    m_cShaderHandle = bgfx::createProgram(bgfx::createShader(vert), bgfx::createShader(frag), true);
 
-    g_VertexLayout.begin()
+    m_cVertexLayout.begin()
         .add(bgfx::Attrib::Position, 2, bgfx::AttribType::Float)
         .add(bgfx::Attrib::TexCoord0, 2, bgfx::AttribType::Float)
         .add(bgfx::Attrib::Color0, 4, bgfx::AttribType::Uint8, true)
         .end();
 
-    g_AttribLocationTex = bgfx::createUniform("g_AttribLocationTex", bgfx::UniformType::Sampler);
+    m_cAttribLocationTex = bgfx::createUniform("g_AttribLocationTex", bgfx::UniformType::Sampler);
 
-    ImGui_Implbgfx_CreateFontsTexture();
+    CreateFontsTexture();
 
     return true;
 }
 
-void ImGui_Implbgfx_InvalidateDeviceObjects()
-{
-    bgfx::destroy(g_AttribLocationTex);
-    bgfx::destroy(g_ShaderHandle);
+// *****************************************************************************
 
-    if (isValid(g_FontTexture))
+auto ImGuiRock::InvalidateDeviceObjects() -> void
+{
+    bgfx::destroy(m_cAttribLocationTex);
+    bgfx::destroy(m_cShaderHandle);
+
+    if (isValid(m_cFontTexture))
     {
-        bgfx::destroy(g_FontTexture);
+        bgfx::destroy(m_cFontTexture);
         ImGui::GetIO().Fonts->TexID = 0;
-        g_FontTexture.idx = bgfx::kInvalidHandle;
+        m_cFontTexture.idx = bgfx::kInvalidHandle;
     }
 }
 
-void ImGui_Implbgfx_Init(int view)
-{
-    g_View = (uint8_t)(view & 0xff);
-}
-
-void ImGui_Implbgfx_Shutdown()
-{
-    ImGui_Implbgfx_InvalidateDeviceObjects();
-}
-
-void ImGui_Implbgfx_NewFrame()
-{
-    if (!isValid(g_FontTexture))
-    {
-        ImGui_Implbgfx_CreateDeviceObjects();
-    }
-}
+} // namespace rocked
