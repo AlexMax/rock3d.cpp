@@ -240,4 +240,23 @@ struct padButton_s
 
 using rockEvent_t = std::variant<keyboardKey_s, mouseMotion_s, mouseButton_s, padAxis_s, padButton_s>;
 
+class EventQueue
+{
+  public:
+    ROCK3D_NOCOPY(EventQueue);
+
+    EventQueue()
+    {
+    }
+
+    virtual ~EventQueue()
+    {
+    }
+
+    virtual auto Queue(rockEvent_t &&cEvent) -> void = 0;
+    virtual auto Poll(rockEvent_t &cOutEvent) -> bool = 0;
+};
+
+auto GetEventQueue() -> EventQueue &;
+
 } // namespace rock3d

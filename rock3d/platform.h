@@ -24,6 +24,10 @@ class Platform
     {
     }
 
+    virtual ~Platform()
+    {
+    }
+
     enum class readError_e
     {
         invalid_path,    // Path could not be constructed.

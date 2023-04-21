@@ -61,6 +61,4 @@ class EditorApp final : public rock3d::App
 
 } // namespace rocked
 
-std::unique_ptr<rock3d::App> g_cDefinedApp{new rocked::EditorApp()};
-
-// DEFINE_APPLICATION(rocked::EditorApp);
+DEFINE_APPLICATION(rocked::EditorApp);

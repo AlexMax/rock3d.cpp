@@ -10,6 +10,7 @@ find_package(SDL2 CONFIG REQUIRED)
 
 set(ROCK3D_SOURCES
     "rock3d/engine.cpp"
+    "rock3d/event.cpp"
     "rock3d/resource.cpp")
 
 if(WIN32)

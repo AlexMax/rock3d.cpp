@@ -312,35 +312,45 @@ class Win32Platform final : public Platform
         SDL_Event ev;
         while (SDL_PollEvent(&ev))
         {
-            rockEvent_t rockEv;
             switch (ev.type)
             {
             case SDL_KEYDOWN:
                 [[fallthrough]];
-            case SDL_KEYUP:
-                rockEv = keyboardKey_s{SDLScanToRock(ev.key.keysym.scancode), ev.type == SDL_KEYDOWN};
+            case SDL_KEYUP: {
+                rockEvent_t rockEv = keyboardKey_s{SDLScanToRock(ev.key.keysym.scancode), ev.type == SDL_KEYDOWN};
+                GetEventQueue().Queue(std::move(rockEv));
                 break;
-            case SDL_MOUSEMOTION:
-                rockEv = mouseMotion_s{
+            }
+            case SDL_MOUSEMOTION: {
+                rockEvent_t rockEv = mouseMotion_s{
                     glm::ivec2{ev.motion.x, ev.motion.y},
                     glm::ivec2{ev.motion.xrel, ev.motion.yrel},
                 };
+                GetEventQueue().Queue(std::move(rockEv));
                 break;
+            }
             case SDL_MOUSEBUTTONDOWN:
                 [[fallthrough]];
-            case SDL_MOUSEBUTTONUP:
-                rockEv = mouseButton_s{glm::ivec2{ev.button.x, ev.button.y}, SDLMBtnToRock(ev.button.button)};
+            case SDL_MOUSEBUTTONUP: {
+                rockEvent_t rockEv =
+                    mouseButton_s{glm::ivec2{ev.button.x, ev.button.y}, SDLMBtnToRock(ev.button.button)};
+                GetEventQueue().Queue(std::move(rockEv));
                 break;
+            }
             case SDL_MOUSEWHEEL:
                 break;
-            case SDL_CONTROLLERAXISMOTION:
-                rockEv = padAxis_s{ev.caxis.axis, ev.caxis.value};
+            case SDL_CONTROLLERAXISMOTION: {
+                rockEvent_t rockEv = padAxis_s{ev.caxis.axis, ev.caxis.value};
+                GetEventQueue().Queue(std::move(rockEv));
                 break;
+            }
             case SDL_CONTROLLERBUTTONDOWN:
                 [[fallthrough]];
-            case SDL_CONTROLLERBUTTONUP:
-                rockEv = padButton_s{ev.cbutton.button, ev.type == SDL_CONTROLLERBUTTONDOWN};
+            case SDL_CONTROLLERBUTTONUP: {
+                rockEvent_t rockEv = padButton_s{ev.cbutton.button, ev.type == SDL_CONTROLLERBUTTONDOWN};
+                GetEventQueue().Queue(std::move(rockEv));
                 break;
+            }
             default:
                 break;
             }
