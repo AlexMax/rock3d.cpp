@@ -17,6 +17,11 @@ class App
     struct config_s
     {
         /**
+         * @brief Pretty name of the app.
+         */
+        const char *szName = nullptr;
+
+        /**
          * @brief Number of MS in a single frame.
          */
         uint64_t qwDeltaMS = 0;
@@ -59,26 +64,6 @@ class App
 };
 
 /**
- * @brief Baseline engine class - used to hide implementation details of
- *        the actual Engine.
- */
-class Engine
-{
-  public:
-    ROCK3D_NOCOPY(Engine);
-    Engine()
-    {
-    }
-    virtual ~Engine()
-    {
-    }
-
-    virtual auto Init() -> void = 0;
-    virtual auto Tick() -> void = 0;
-    virtual auto Shutdown() -> void = 0;
-};
-
-/**
  * @brief Entry point of the game engine, using the defined app.
  */
 [[noreturn]] auto EngineMain() -> void;
@@ -87,6 +72,11 @@ class Engine
  * @brief Shutdown the game as gracefully as we can.
  */
 [[noreturn]] auto Shutdown() -> void;
+
+/**
+ * @brief Return configuration values for the app.
+ */
+auto AppConfig() -> const App::config_s &;
 
 } // namespace rock3d
 

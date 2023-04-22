@@ -190,6 +190,8 @@ auto RockImGui::Shutdown() -> void
     InvalidateDeviceObjects();
 }
 
+// *****************************************************************************
+
 auto RockImGui::HandleEvent(const rock3d::event_t &cEvent) -> bool
 {
     ImGuiIO &io = ImGui::GetIO();

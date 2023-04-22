@@ -10,7 +10,7 @@ namespace rocked
 
 class EditorApp final : public rock3d::App
 {
-    static constexpr rock3d::App::config_s CONFIG{1000 / 60, 1000 / 4};
+    static constexpr rock3d::App::config_s CONFIG{u8"rocked", 1000 / 60, 1000 / 4};
 
     RockImGui m_cRockImGui;
 

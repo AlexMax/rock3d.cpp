@@ -14,7 +14,7 @@ extern std::unique_ptr<rock3d::App> g_cDefinedApp;
 namespace rock3d
 {
 
-class EngineImpl final : public Engine
+class Engine final
 {
     std::unique_ptr<App> m_pApp = nullptr;
 
@@ -24,13 +24,13 @@ class EngineImpl final : public Engine
      *
      * @param cApp Pointer to application class.  Takes ownership.
      */
-    EngineImpl(std::unique_ptr<App> cApp) : m_pApp(std::move(cApp))
+    Engine(std::unique_ptr<App> cApp) : m_pApp(std::move(cApp))
     {
     }
 
     // *************************************************************************
 
-    auto Init() -> void override
+    auto Init() -> void
     {
         GetPlatform().Init();
         m_pApp->Init();
@@ -38,9 +38,16 @@ class EngineImpl final : public Engine
 
     // *************************************************************************
 
-    auto Tick() -> void override
+    auto AppConfig() -> const App::config_s &
     {
-        App::config_s config = m_pApp->Config();
+        return m_pApp->Config();
+    }
+
+    // *************************************************************************
+
+    auto Tick() -> void
+    {
+        const App::config_s &config = m_pApp->Config();
 
         // Glenn Fiedler's fixed timestep, with interpolation.
         uint64_t f = 0;
@@ -89,7 +96,7 @@ class EngineImpl final : public Engine
 
     // *************************************************************************
 
-    auto Shutdown() -> void override
+    auto Shutdown() -> void
     {
         m_pApp->Shutdown();
         GetPlatform().Shutdown();
@@ -109,7 +116,7 @@ static std::unique_ptr<Engine> g_pEngine;
         GetPlatform().FatalError("App must be defined, did you forget DEFINE_APPLICATION?");
     }
 
-    g_pEngine.reset(new rock3d::EngineImpl(std::move(g_cDefinedApp)));
+    g_pEngine.reset(new rock3d::Engine(std::move(g_cDefinedApp)));
     g_pEngine->Init();
 
     for (;;)
@@ -118,10 +125,19 @@ static std::unique_ptr<Engine> g_pEngine;
     }
 }
 
+// *************************************************************************
+
 [[noreturn]] auto Shutdown() -> void
 {
     g_pEngine->Shutdown();
     exit(EXIT_SUCCESS);
+}
+
+// *************************************************************************
+
+auto AppConfig() -> const App::config_s &
+{
+    return g_pEngine->AppConfig();
 }
 
 } // namespace rock3d

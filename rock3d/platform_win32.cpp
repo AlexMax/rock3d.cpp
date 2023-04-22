@@ -91,7 +91,7 @@ class Win32Platform final : public Platform
             return;
         }
 
-        m_pWindow = SDL_CreateWindow("hello_sdl2", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+        m_pWindow = SDL_CreateWindow(AppConfig().szName, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
                                      DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
         if (m_pWindow == nullptr)
         {
