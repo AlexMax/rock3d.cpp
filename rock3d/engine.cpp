@@ -51,8 +51,15 @@ class EngineImpl final : public Engine
 
         for (;;)
         {
-            // Pump events first.
+            // Feed events into the queue.
             GetPlatform().PumpEvents();
+
+            // Handle events from the queue.
+            rock3d::event_t ev;
+            while (GetEventQueue().Poll(ev))
+            {
+                m_pApp->HandleEvent(ev);
+            }
 
             // Figure out our desired frame time.
             uint64_t newTime = GetPlatform().TimeMS();

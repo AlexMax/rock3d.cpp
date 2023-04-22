@@ -17,6 +17,147 @@ namespace rocked
 
 // *****************************************************************************
 
+#define IMGUI_CONV_(imgui_key, rock_key)                                                                               \
+    case rock_key:                                                                                                     \
+        return imgui_key;                                                                                              \
+        static_assert(true, "")
+
+/**
+ * @brief Convert rock3d key to ImGui key.
+ */
+constexpr static auto RockKeyToImGuiKey(rock3d::keyboardKey_e eKey) -> ImGuiKey
+{
+    switch (eKey)
+    {
+        IMGUI_CONV_(ImGuiKey_Tab, rock3d::KKEY_TAB);
+        IMGUI_CONV_(ImGuiKey_LeftArrow, rock3d::KKEY_LEFT);
+        IMGUI_CONV_(ImGuiKey_RightArrow, rock3d::KKEY_RIGHT);
+        IMGUI_CONV_(ImGuiKey_UpArrow, rock3d::KKEY_UP);
+        IMGUI_CONV_(ImGuiKey_DownArrow, rock3d::KKEY_DOWN);
+        IMGUI_CONV_(ImGuiKey_PageUp, rock3d::KKEY_PAGEUP);
+        IMGUI_CONV_(ImGuiKey_PageDown, rock3d::KKEY_PAGEDOWN);
+        IMGUI_CONV_(ImGuiKey_Home, rock3d::KKEY_HOME);
+        IMGUI_CONV_(ImGuiKey_End, rock3d::KKEY_END);
+        IMGUI_CONV_(ImGuiKey_Insert, rock3d::KKEY_INSERT);
+        IMGUI_CONV_(ImGuiKey_Delete, rock3d::KKEY_DELETE);
+        IMGUI_CONV_(ImGuiKey_Backspace, rock3d::KKEY_BACKSPACE);
+        IMGUI_CONV_(ImGuiKey_Space, rock3d::KKEY_SPACE);
+        IMGUI_CONV_(ImGuiKey_Enter, rock3d::KKEY_RETURN);
+        IMGUI_CONV_(ImGuiKey_Escape, rock3d::KKEY_ESCAPE);
+        IMGUI_CONV_(ImGuiKey_LeftCtrl, rock3d::KKEY_LCTRL);
+        IMGUI_CONV_(ImGuiKey_LeftShift, rock3d::KKEY_LSHIFT);
+        IMGUI_CONV_(ImGuiKey_LeftAlt, rock3d::KKEY_LALT);
+        IMGUI_CONV_(ImGuiKey_LeftSuper, rock3d::KKEY_LGUI);
+        IMGUI_CONV_(ImGuiKey_RightCtrl, rock3d::KKEY_RCTRL);
+        IMGUI_CONV_(ImGuiKey_RightShift, rock3d::KKEY_RSHIFT);
+        IMGUI_CONV_(ImGuiKey_RightAlt, rock3d::KKEY_RALT);
+        IMGUI_CONV_(ImGuiKey_RightSuper, rock3d::KKEY_RGUI);
+        IMGUI_CONV_(ImGuiKey_Menu, rock3d::KKEY_APPLICATION);
+        IMGUI_CONV_(ImGuiKey_0, rock3d::KKEY_0);
+        IMGUI_CONV_(ImGuiKey_1, rock3d::KKEY_1);
+        IMGUI_CONV_(ImGuiKey_2, rock3d::KKEY_2);
+        IMGUI_CONV_(ImGuiKey_3, rock3d::KKEY_3);
+        IMGUI_CONV_(ImGuiKey_4, rock3d::KKEY_4);
+        IMGUI_CONV_(ImGuiKey_5, rock3d::KKEY_5);
+        IMGUI_CONV_(ImGuiKey_6, rock3d::KKEY_6);
+        IMGUI_CONV_(ImGuiKey_7, rock3d::KKEY_7);
+        IMGUI_CONV_(ImGuiKey_8, rock3d::KKEY_8);
+        IMGUI_CONV_(ImGuiKey_9, rock3d::KKEY_9);
+        IMGUI_CONV_(ImGuiKey_A, rock3d::KKEY_a);
+        IMGUI_CONV_(ImGuiKey_B, rock3d::KKEY_b);
+        IMGUI_CONV_(ImGuiKey_C, rock3d::KKEY_c);
+        IMGUI_CONV_(ImGuiKey_D, rock3d::KKEY_d);
+        IMGUI_CONV_(ImGuiKey_E, rock3d::KKEY_e);
+        IMGUI_CONV_(ImGuiKey_F, rock3d::KKEY_f);
+        IMGUI_CONV_(ImGuiKey_G, rock3d::KKEY_g);
+        IMGUI_CONV_(ImGuiKey_H, rock3d::KKEY_h);
+        IMGUI_CONV_(ImGuiKey_I, rock3d::KKEY_i);
+        IMGUI_CONV_(ImGuiKey_J, rock3d::KKEY_j);
+        IMGUI_CONV_(ImGuiKey_K, rock3d::KKEY_k);
+        IMGUI_CONV_(ImGuiKey_L, rock3d::KKEY_l);
+        IMGUI_CONV_(ImGuiKey_M, rock3d::KKEY_m);
+        IMGUI_CONV_(ImGuiKey_N, rock3d::KKEY_n);
+        IMGUI_CONV_(ImGuiKey_O, rock3d::KKEY_o);
+        IMGUI_CONV_(ImGuiKey_P, rock3d::KKEY_p);
+        IMGUI_CONV_(ImGuiKey_Q, rock3d::KKEY_q);
+        IMGUI_CONV_(ImGuiKey_R, rock3d::KKEY_r);
+        IMGUI_CONV_(ImGuiKey_S, rock3d::KKEY_s);
+        IMGUI_CONV_(ImGuiKey_T, rock3d::KKEY_t);
+        IMGUI_CONV_(ImGuiKey_U, rock3d::KKEY_u);
+        IMGUI_CONV_(ImGuiKey_V, rock3d::KKEY_v);
+        IMGUI_CONV_(ImGuiKey_W, rock3d::KKEY_w);
+        IMGUI_CONV_(ImGuiKey_X, rock3d::KKEY_x);
+        IMGUI_CONV_(ImGuiKey_Y, rock3d::KKEY_y);
+        IMGUI_CONV_(ImGuiKey_Z, rock3d::KKEY_z);
+        IMGUI_CONV_(ImGuiKey_F1, rock3d::KKEY_F1);
+        IMGUI_CONV_(ImGuiKey_F2, rock3d::KKEY_F2);
+        IMGUI_CONV_(ImGuiKey_F3, rock3d::KKEY_F3);
+        IMGUI_CONV_(ImGuiKey_F4, rock3d::KKEY_F4);
+        IMGUI_CONV_(ImGuiKey_F5, rock3d::KKEY_F5);
+        IMGUI_CONV_(ImGuiKey_F6, rock3d::KKEY_F6);
+        IMGUI_CONV_(ImGuiKey_F7, rock3d::KKEY_F7);
+        IMGUI_CONV_(ImGuiKey_F8, rock3d::KKEY_F8);
+        IMGUI_CONV_(ImGuiKey_F9, rock3d::KKEY_F9);
+        IMGUI_CONV_(ImGuiKey_F10, rock3d::KKEY_F10);
+        IMGUI_CONV_(ImGuiKey_F11, rock3d::KKEY_F11);
+        IMGUI_CONV_(ImGuiKey_F12, rock3d::KKEY_F12);
+        IMGUI_CONV_(ImGuiKey_Apostrophe, rock3d::KKEY_QUOTE);
+        IMGUI_CONV_(ImGuiKey_Comma, rock3d::KKEY_COMMA);
+        IMGUI_CONV_(ImGuiKey_Minus, rock3d::KKEY_MINUS);
+        IMGUI_CONV_(ImGuiKey_Period, rock3d::KKEY_PERIOD);
+        IMGUI_CONV_(ImGuiKey_Slash, rock3d::KKEY_SLASH);
+        IMGUI_CONV_(ImGuiKey_Semicolon, rock3d::KKEY_SEMICOLON);
+        IMGUI_CONV_(ImGuiKey_Equal, rock3d::KKEY_EQUALS);
+        IMGUI_CONV_(ImGuiKey_LeftBracket, rock3d::KKEY_LEFTBRACKET);
+        IMGUI_CONV_(ImGuiKey_Backslash, rock3d::KKEY_BACKSLASH);
+        IMGUI_CONV_(ImGuiKey_RightBracket, rock3d::KKEY_RIGHTBRACKET);
+        IMGUI_CONV_(ImGuiKey_GraveAccent, rock3d::KKEY_BACKQUOTE);
+        IMGUI_CONV_(ImGuiKey_CapsLock, rock3d::KKEY_CAPSLOCK);
+        IMGUI_CONV_(ImGuiKey_ScrollLock, rock3d::KKEY_SCROLLLOCK);
+        IMGUI_CONV_(ImGuiKey_NumLock, rock3d::KKEY_NUMLOCKCLEAR);
+        IMGUI_CONV_(ImGuiKey_PrintScreen, rock3d::KKEY_PRINTSCREEN);
+        IMGUI_CONV_(ImGuiKey_Pause, rock3d::KKEY_PAUSE);
+        IMGUI_CONV_(ImGuiKey_Keypad0, rock3d::KKEY_KP_0);
+        IMGUI_CONV_(ImGuiKey_Keypad1, rock3d::KKEY_KP_1);
+        IMGUI_CONV_(ImGuiKey_Keypad2, rock3d::KKEY_KP_2);
+        IMGUI_CONV_(ImGuiKey_Keypad3, rock3d::KKEY_KP_3);
+        IMGUI_CONV_(ImGuiKey_Keypad4, rock3d::KKEY_KP_4);
+        IMGUI_CONV_(ImGuiKey_Keypad5, rock3d::KKEY_KP_5);
+        IMGUI_CONV_(ImGuiKey_Keypad6, rock3d::KKEY_KP_6);
+        IMGUI_CONV_(ImGuiKey_Keypad7, rock3d::KKEY_KP_7);
+        IMGUI_CONV_(ImGuiKey_Keypad8, rock3d::KKEY_KP_8);
+        IMGUI_CONV_(ImGuiKey_Keypad9, rock3d::KKEY_KP_9);
+        IMGUI_CONV_(ImGuiKey_KeypadDecimal, rock3d::KKEY_KP_PERIOD);
+        IMGUI_CONV_(ImGuiKey_KeypadDivide, rock3d::KKEY_KP_DIVIDE);
+        IMGUI_CONV_(ImGuiKey_KeypadMultiply, rock3d::KKEY_KP_MULTIPLY);
+        IMGUI_CONV_(ImGuiKey_KeypadSubtract, rock3d::KKEY_KP_MINUS);
+        IMGUI_CONV_(ImGuiKey_KeypadAdd, rock3d::KKEY_KP_PLUS);
+        IMGUI_CONV_(ImGuiKey_KeypadEnter, rock3d::KKEY_KP_ENTER);
+        IMGUI_CONV_(ImGuiKey_KeypadEqual, rock3d::KKEY_KP_EQUALS);
+    default:
+        return ImGuiKey_None;
+    }
+}
+
+/**
+ * @brief Convert rock3d mouse button to ImGui mouse button.
+ */
+constexpr static auto RockMouseButtonToImGuiMouseButton(rock3d::mouseButton_e eButton) -> int
+{
+    switch (eButton)
+    {
+        IMGUI_CONV_(ImGuiMouseButton_Left, rock3d::MBTN_LEFT);
+        IMGUI_CONV_(ImGuiMouseButton_Right, rock3d::MBTN_RIGHT);
+        IMGUI_CONV_(ImGuiMouseButton_Middle, rock3d::MBTN_MIDDLE);
+    default:
+        return -1;
+    }
+}
+
+#undef IMGUI_CONV_
+
+// *****************************************************************************
+
 auto RockImGui::CreateFontsTexture() -> bool
 {
     // Build texture atlas
@@ -47,6 +188,44 @@ auto RockImGui::Init(const int view) -> void
 auto RockImGui::Shutdown() -> void
 {
     InvalidateDeviceObjects();
+}
+
+auto RockImGui::HandleEvent(const rock3d::event_t &cEvent) -> bool
+{
+    ImGuiIO &io = ImGui::GetIO();
+
+    auto key = std::get_if<rock3d::eventKey_s>(&cEvent);
+    if (key)
+    {
+        auto ikey = RockKeyToImGuiKey(key->key);
+        if (ikey)
+        {
+            io.AddKeyEvent(RockKeyToImGuiKey(key->key), key->pressed);
+            return true;
+        }
+        return false;
+    }
+
+    auto mouseMotion = std::get_if<rock3d::eventMouseMotion_s>(&cEvent);
+    if (mouseMotion)
+    {
+        io.AddMousePosEvent(float(mouseMotion->abs.x), float(mouseMotion->abs.y));
+        return true;
+    }
+
+    auto mouseButton = std::get_if<rock3d::eventMouseButton_s>(&cEvent);
+    if (mouseButton)
+    {
+        auto ibtn = RockMouseButtonToImGuiMouseButton(mouseButton->button);
+        if (ibtn >= 0)
+        {
+            io.AddMouseButtonEvent(ibtn, mouseButton->pressed);
+            return true;
+        }
+        return false;
+    }
+
+    return false;
 }
 
 // *****************************************************************************

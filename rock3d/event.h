@@ -3,6 +3,11 @@
  * Copyright (C) 2018 Lexi Mayfield <alexmax2742@gmail.com>
  */
 
+/**
+ * This header uses significant amounts of code (scancodes and key codes)
+ * from SDL, please see LICENSE-3RD-PARTY.txt for licensing info.
+ */
+
 #pragma once
 
 namespace rock3d
@@ -140,6 +145,157 @@ enum keyboardScan_e
 
 constexpr int KSCAN_MAX = 512;
 
+namespace detail
+{
+template <typename T>
+constexpr T ScanToKey(const rock3d::keyboardScan_e eKey)
+{
+    return T(int(eKey) | (1 << 30));
+}
+} // namespace detail
+
+enum keyboardKey_e
+{
+    KKEY_UNKNOWN = 0,
+    KKEY_RETURN = '\r',
+    KKEY_ESCAPE = '\x1B',
+    KKEY_BACKSPACE = '\b',
+    KKEY_TAB = '\t',
+    KKEY_SPACE = ' ',
+    KKEY_EXCLAIM = '!',
+    KKEY_QUOTEDBL = '"',
+    KKEY_HASH = '#',
+    KKEY_PERCENT = '%',
+    KKEY_DOLLAR = '$',
+    KKEY_AMPERSAND = '&',
+    KKEY_QUOTE = '\'',
+    KKEY_LEFTPAREN = '(',
+    KKEY_RIGHTPAREN = ')',
+    KKEY_ASTERISK = '*',
+    KKEY_PLUS = '+',
+    KKEY_COMMA = ',',
+    KKEY_MINUS = '-',
+    KKEY_PERIOD = '.',
+    KKEY_SLASH = '/',
+    KKEY_0 = '0',
+    KKEY_1 = '1',
+    KKEY_2 = '2',
+    KKEY_3 = '3',
+    KKEY_4 = '4',
+    KKEY_5 = '5',
+    KKEY_6 = '6',
+    KKEY_7 = '7',
+    KKEY_8 = '8',
+    KKEY_9 = '9',
+    KKEY_COLON = ':',
+    KKEY_SEMICOLON = ';',
+    KKEY_LESS = '<',
+    KKEY_EQUALS = '=',
+    KKEY_GREATER = '>',
+    KKEY_QUESTION = '?',
+    KKEY_AT = '@',
+    KKEY_LEFTBRACKET = '[',
+    KKEY_BACKSLASH = '\\',
+    KKEY_RIGHTBRACKET = ']',
+    KKEY_CARET = '^',
+    KKEY_UNDERSCORE = '_',
+    KKEY_BACKQUOTE = '`',
+    KKEY_DELETE = '\x7F',
+    KKEY_a = 'a',
+    KKEY_b = 'b',
+    KKEY_c = 'c',
+    KKEY_d = 'd',
+    KKEY_e = 'e',
+    KKEY_f = 'f',
+    KKEY_g = 'g',
+    KKEY_h = 'h',
+    KKEY_i = 'i',
+    KKEY_j = 'j',
+    KKEY_k = 'k',
+    KKEY_l = 'l',
+    KKEY_m = 'm',
+    KKEY_n = 'n',
+    KKEY_o = 'o',
+    KKEY_p = 'p',
+    KKEY_q = 'q',
+    KKEY_r = 'r',
+    KKEY_s = 's',
+    KKEY_t = 't',
+    KKEY_u = 'u',
+    KKEY_v = 'v',
+    KKEY_w = 'w',
+    KKEY_x = 'x',
+    KKEY_y = 'y',
+    KKEY_z = 'z',
+
+    // Scancode conversions.
+
+    KKEY_CAPSLOCK = detail::ScanToKey<keyboardKey_e>(KSCAN_CAPSLOCK),
+    KKEY_F1 = detail::ScanToKey<keyboardKey_e>(KSCAN_F1),
+    KKEY_F2 = detail::ScanToKey<keyboardKey_e>(KSCAN_F2),
+    KKEY_F3 = detail::ScanToKey<keyboardKey_e>(KSCAN_F3),
+    KKEY_F4 = detail::ScanToKey<keyboardKey_e>(KSCAN_F4),
+    KKEY_F5 = detail::ScanToKey<keyboardKey_e>(KSCAN_F5),
+    KKEY_F6 = detail::ScanToKey<keyboardKey_e>(KSCAN_F6),
+    KKEY_F7 = detail::ScanToKey<keyboardKey_e>(KSCAN_F7),
+    KKEY_F8 = detail::ScanToKey<keyboardKey_e>(KSCAN_F8),
+    KKEY_F9 = detail::ScanToKey<keyboardKey_e>(KSCAN_F9),
+    KKEY_F10 = detail::ScanToKey<keyboardKey_e>(KSCAN_F10),
+    KKEY_F11 = detail::ScanToKey<keyboardKey_e>(KSCAN_F11),
+    KKEY_F12 = detail::ScanToKey<keyboardKey_e>(KSCAN_F12),
+    KKEY_PRINTSCREEN = detail::ScanToKey<keyboardKey_e>(KSCAN_PRINTSCREEN),
+    KKEY_SCROLLLOCK = detail::ScanToKey<keyboardKey_e>(KSCAN_SCROLLLOCK),
+    KKEY_PAUSE = detail::ScanToKey<keyboardKey_e>(KSCAN_PAUSE),
+    KKEY_INSERT = detail::ScanToKey<keyboardKey_e>(KSCAN_INSERT),
+    KKEY_HOME = detail::ScanToKey<keyboardKey_e>(KSCAN_HOME),
+    KKEY_PAGEUP = detail::ScanToKey<keyboardKey_e>(KSCAN_PAGEUP),
+    KKEY_END = detail::ScanToKey<keyboardKey_e>(KSCAN_END),
+    KKEY_PAGEDOWN = detail::ScanToKey<keyboardKey_e>(KSCAN_PAGEDOWN),
+    KKEY_RIGHT = detail::ScanToKey<keyboardKey_e>(KSCAN_RIGHT),
+    KKEY_LEFT = detail::ScanToKey<keyboardKey_e>(KSCAN_LEFT),
+    KKEY_DOWN = detail::ScanToKey<keyboardKey_e>(KSCAN_DOWN),
+    KKEY_UP = detail::ScanToKey<keyboardKey_e>(KSCAN_UP),
+    KKEY_NUMLOCKCLEAR = detail::ScanToKey<keyboardKey_e>(KSCAN_NUMLOCKCLEAR),
+    KKEY_KP_DIVIDE = detail::ScanToKey<keyboardKey_e>(KSCAN_KP_DIVIDE),
+    KKEY_KP_MULTIPLY = detail::ScanToKey<keyboardKey_e>(KSCAN_KP_MULTIPLY),
+    KKEY_KP_MINUS = detail::ScanToKey<keyboardKey_e>(KSCAN_KP_MINUS),
+    KKEY_KP_PLUS = detail::ScanToKey<keyboardKey_e>(KSCAN_KP_PLUS),
+    KKEY_KP_ENTER = detail::ScanToKey<keyboardKey_e>(KSCAN_KP_ENTER),
+    KKEY_KP_1 = detail::ScanToKey<keyboardKey_e>(KSCAN_KP_1),
+    KKEY_KP_2 = detail::ScanToKey<keyboardKey_e>(KSCAN_KP_2),
+    KKEY_KP_3 = detail::ScanToKey<keyboardKey_e>(KSCAN_KP_3),
+    KKEY_KP_4 = detail::ScanToKey<keyboardKey_e>(KSCAN_KP_4),
+    KKEY_KP_5 = detail::ScanToKey<keyboardKey_e>(KSCAN_KP_5),
+    KKEY_KP_6 = detail::ScanToKey<keyboardKey_e>(KSCAN_KP_6),
+    KKEY_KP_7 = detail::ScanToKey<keyboardKey_e>(KSCAN_KP_7),
+    KKEY_KP_8 = detail::ScanToKey<keyboardKey_e>(KSCAN_KP_8),
+    KKEY_KP_9 = detail::ScanToKey<keyboardKey_e>(KSCAN_KP_9),
+    KKEY_KP_0 = detail::ScanToKey<keyboardKey_e>(KSCAN_KP_0),
+    KKEY_KP_PERIOD = detail::ScanToKey<keyboardKey_e>(KSCAN_KP_PERIOD),
+    KKEY_APPLICATION = detail::ScanToKey<keyboardKey_e>(KSCAN_APPLICATION),
+    KKEY_KP_EQUALS = detail::ScanToKey<keyboardKey_e>(KSCAN_KP_EQUALS),
+    KKEY_F13 = detail::ScanToKey<keyboardKey_e>(KSCAN_F13),
+    KKEY_F14 = detail::ScanToKey<keyboardKey_e>(KSCAN_F14),
+    KKEY_F15 = detail::ScanToKey<keyboardKey_e>(KSCAN_F15),
+    KKEY_F16 = detail::ScanToKey<keyboardKey_e>(KSCAN_F16),
+    KKEY_F17 = detail::ScanToKey<keyboardKey_e>(KSCAN_F17),
+    KKEY_F18 = detail::ScanToKey<keyboardKey_e>(KSCAN_F18),
+    KKEY_F19 = detail::ScanToKey<keyboardKey_e>(KSCAN_F19),
+    KKEY_F20 = detail::ScanToKey<keyboardKey_e>(KSCAN_F20),
+    KKEY_F21 = detail::ScanToKey<keyboardKey_e>(KSCAN_F21),
+    KKEY_F22 = detail::ScanToKey<keyboardKey_e>(KSCAN_F22),
+    KKEY_F23 = detail::ScanToKey<keyboardKey_e>(KSCAN_F23),
+    KKEY_F24 = detail::ScanToKey<keyboardKey_e>(KSCAN_F24),
+    KKEY_LCTRL = detail::ScanToKey<keyboardKey_e>(KSCAN_LCTRL),
+    KKEY_LSHIFT = detail::ScanToKey<keyboardKey_e>(KSCAN_LSHIFT),
+    KKEY_LALT = detail::ScanToKey<keyboardKey_e>(KSCAN_LALT),
+    KKEY_LGUI = detail::ScanToKey<keyboardKey_e>(KSCAN_LGUI),
+    KKEY_RCTRL = detail::ScanToKey<keyboardKey_e>(KSCAN_RCTRL),
+    KKEY_RSHIFT = detail::ScanToKey<keyboardKey_e>(KSCAN_RSHIFT),
+    KKEY_RALT = detail::ScanToKey<keyboardKey_e>(KSCAN_RALT),
+    KKEY_RGUI = detail::ScanToKey<keyboardKey_e>(KSCAN_RGUI),
+};
+
 /**
  * @brief Mouse buttons.
  */
@@ -208,37 +364,39 @@ enum padButton_e
 constexpr int PADBTN_NONSTD = int(PADBTN_TOUCHPAD) + 1;
 constexpr int PADBTN_MAX = int(PADBTN_RIGHTTRIGGER) + 1;
 
-struct keyboardKey_s
+struct eventKey_s
 {
     keyboardScan_e scan = KSCAN_NONE;
+    keyboardKey_e key = KKEY_UNKNOWN;
     bool pressed = false;
 };
 
-struct mouseMotion_s
+struct eventMouseMotion_s
 {
     glm::ivec2 abs{0, 0};
     glm::ivec2 rel{0, 0};
 };
 
-struct mouseButton_s
+struct eventMouseButton_s
 {
     glm::ivec2 abs{0, 0};
     mouseButton_e button = MBTN_NONE;
+    bool pressed = false;
 };
 
-struct padAxis_s
+struct eventPadAxis_s
 {
     uint8_t axis = 0;
     int16_t value = 0;
 };
 
-struct padButton_s
+struct eventPadButton_s
 {
     uint8_t button = 0;
     bool pressed = false;
 };
 
-using rockEvent_t = std::variant<keyboardKey_s, mouseMotion_s, mouseButton_s, padAxis_s, padButton_s>;
+using event_t = std::variant<eventKey_s, eventMouseMotion_s, eventMouseButton_s, eventPadAxis_s, eventPadButton_s>;
 
 class EventQueue
 {
@@ -253,8 +411,8 @@ class EventQueue
     {
     }
 
-    virtual auto Queue(rockEvent_t &&cEvent) -> void = 0;
-    virtual auto Poll(rockEvent_t &cOutEvent) -> bool = 0;
+    virtual auto Queue(event_t &&cEvent) -> void = 0;
+    virtual auto Poll(event_t &cOutEvent) -> bool = 0;
 };
 
 auto GetEventQueue() -> EventQueue &;

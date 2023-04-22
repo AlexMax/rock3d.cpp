@@ -19,7 +19,7 @@ class EventQueueImpl final : public EventQueue
     static constexpr size_t QUEUE_SIZE = 1024;
     static constexpr size_t QUEUE_MASK = QUEUE_SIZE - 1;
 
-    std::array<rockEvent_t, QUEUE_SIZE> m_ncEvents;
+    std::array<event_t, QUEUE_SIZE> m_ncEvents;
     size_t m_qwHead = 0;
     size_t m_qwTail = 0;
 
@@ -29,7 +29,7 @@ class EventQueueImpl final : public EventQueue
     }
 
   public:
-    auto Queue(rockEvent_t &&cEvent) -> void override
+    auto Queue(event_t &&cEvent) -> void override
     {
         if (Next(m_qwTail) == m_qwHead)
         {
@@ -40,7 +40,7 @@ class EventQueueImpl final : public EventQueue
         m_qwTail = Next(m_qwTail);
     }
 
-    auto Poll(rockEvent_t &cOutEvent) -> bool override
+    auto Poll(event_t &cOutEvent) -> bool override
     {
         if (m_qwHead == m_qwTail)
         {

@@ -33,6 +33,11 @@ class EditorApp final : public rock3d::App
         m_cRockImGui.Init(0);
     }
 
+    auto HandleEvent(const rock3d::event_t &cEvent) -> void override
+    {
+        m_cRockImGui.HandleEvent(cEvent);
+    }
+
     auto Tick(const tickParams_s &cParams) -> void override
     {
     }

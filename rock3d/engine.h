@@ -52,6 +52,7 @@ class App
 
     virtual auto Config() -> const config_s & = 0;
     virtual auto Init() -> void = 0;
+    virtual auto HandleEvent(const rock3d::event_t &cEvent) -> void = 0;
     virtual auto Tick(const tickParams_s &cParams) -> void = 0;
     virtual auto Render(const renderParams_s &cParams) -> void = 0;
     virtual auto Shutdown() -> void = 0;

@@ -31,6 +31,7 @@ class RockImGui final
 
     auto Init(const int view) -> void;
     auto Shutdown() -> void;
+    auto HandleEvent(const rock3d::event_t &cEvent) -> bool;
     auto NewFrame() -> void;
     auto RenderDrawLists(ImDrawData *draw_data) -> void;
 
