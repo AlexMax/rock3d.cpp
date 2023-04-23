@@ -12,10 +12,11 @@ import subprocess
 import sys
 
 ROOT_DIR = Path(__file__).parent.parent
+ASSETS_DIR = ROOT_DIR / "build" / "assets"
+VCPKG_INSTALLED_DIR = ROOT_DIR / "build" / "vcpkg_installed"
 
-SHADERC_EXE = (
-    ROOT_DIR / "vcpkg" / "installed" / "x64-windows" / "tools" / "bgfx" / "shaderc.exe"
-)
+SHADERC_EXE = VCPKG_INSTALLED_DIR / "x64-windows" / "tools" / "bgfx" / "shaderc.exe"
+SHADERC_INCLUDE_DIR = VCPKG_INSTALLED_DIR / "x64-windows" / "include" / "bgfx"
 
 PathParam = os.PathLike | bytes | str
 
@@ -46,7 +47,7 @@ def build_shader(
     args: list[str] = [
         str(SHADERC_EXE),
         "-i",
-        str(ROOT_DIR / "vcpkg" / "installed" / "x64-windows" / "include" / "bgfx"),
+        str(SHADERC_INCLUDE_DIR),
         "-f",
         str(input_file),
         "-o",
@@ -63,8 +64,9 @@ def build_shader(
 
 
 def build_shaders() -> None:
-    out_base_path = ROOT_DIR / "build" / "assets" / "shaders"
+    out_base_path = ASSETS_DIR / "shaders"
     out_profile = "spirv15-12"
+    (out_base_path / out_profile).mkdir(parents=True, exist_ok=True)
 
     shaders: list[Shader] = [
         Shader(
@@ -97,6 +99,8 @@ def build_shaders() -> None:
 
 
 def main() -> None:
+    ASSETS_DIR.mkdir(parents=True, exist_ok=True)
+
     build_shaders()
 
 

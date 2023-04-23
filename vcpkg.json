@@ -1,0 +1,15 @@
+{
+    "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
+    "name": "rock3d",
+    "dependencies": [
+        {
+            "name": "bgfx",
+            "features": ["tools"]
+        },
+        "fmt",
+        "glm",
+        "imgui",
+        "jsoncpp",
+        "sdl2"
+    ]
+}

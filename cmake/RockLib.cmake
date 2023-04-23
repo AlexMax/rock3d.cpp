@@ -1,0 +1,10 @@
+include(CheckCXXCompilerFlag)
+
+function(checked_add_compile_flag _LIST _FLAG _VAR)
+    check_cxx_compiler_flag(${_FLAG} ${_VAR})
+    if(${_VAR})
+        set(NEW_LIST ${${_LIST}})
+        list(APPEND NEW_LIST ${_FLAG})
+        set(${_LIST} ${NEW_LIST} PARENT_SCOPE)
+    endif()
+endfunction()

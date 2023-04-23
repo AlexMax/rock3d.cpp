@@ -2,6 +2,12 @@ cmake_minimum_required(VERSION 3.21)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
+include(RockLib)
+
+if(NOT "${CMAKE_TOOLCHAIN_FILE}")
+    set(CMAKE_TOOLCHAIN_FILE "${CMAKE_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake")
+endif()
+
 project(rock3d LANGUAGES CXX)
 
 find_package(bgfx CONFIG REQUIRED)
@@ -36,11 +42,17 @@ set(ROCK3D_HEADERS
     "rock3d/r3d/render.h"
     "rock3d/r3d/textures.h")
 
+if(MSVC)
+    checked_add_compile_flag(ROCK3D_COMPILE_OPTIONS "/permissive-" ROCK3D_HAS_PERMISSIVE)
+    checked_add_compile_flag(ROCK3D_COMPILE_OPTIONS "/Zc:__cplusplus" ROCK3D_HAS_CPLUSPLUS)
+endif()
+
 add_library(rock3d STATIC ${ROCK3D_SOURCES} ${ROCK3D_HEADERS})
-target_compile_features(rock3d PRIVATE cxx_std_17)
+target_compile_options(rock3d PRIVATE /W4 ${ROCK3D_COMPILE_OPTIONS})
+target_compile_features(rock3d PUBLIC cxx_std_17)
 target_include_directories(rock3d PUBLIC "rock3d" "rock3d/vendor")
 
-target_link_libraries(rock3d PUBLIC bgfx::bx bgfx::bgfx bgfx::bimg bgfx::bimg_decode)
+target_link_libraries(rock3d PUBLIC bgfx::bgfx bgfx::bx bgfx::bimg)
 target_link_libraries(rock3d PUBLIC fmt::fmt)
 target_link_libraries(rock3d PUBLIC glm::glm)
 target_link_libraries(rock3d PUBLIC JsonCpp::JsonCpp)
