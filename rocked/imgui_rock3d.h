@@ -36,7 +36,7 @@ class RockImGui final
     auto RenderDrawLists(ImDrawData *draw_data) -> void;
 
     // Use if you want to reset your rendering device without losing ImGui state.
-    auto CreateDeviceObjects() -> bool;
+    auto CreateDeviceObjects() -> void;
     auto InvalidateDeviceObjects() -> void;
 };
 

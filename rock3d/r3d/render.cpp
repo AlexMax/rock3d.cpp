@@ -17,8 +17,6 @@ const DEBUG: boolean = false;
 
 #include "../rock3d.h"
 
-#include "bgfx/bgfx.h"
-
 namespace rock3d::r3D
 {
 
@@ -43,21 +41,7 @@ class RenderContext
   public:
     auto Init() -> bool
     {
-        const auto maybeVert =
-            rock3d::GetResource().ReadToBuffer("shaders/spirv15-12/rock3d_r3d_shaders_world_vert.sc.bin");
-        const auto maybeFrag =
-            rock3d::GetResource().ReadToBuffer("shaders/spirv15-12/rock3d_r3d_shaders_world_frag.sc.bin");
-        if (!maybeVert.has_value() || !maybeFrag.has_value())
-        {
-            return false;
-        }
-
-        // [LM] AFAICT, these are freed by bgfx and there's no standalone free function.
-        const bgfx::Memory *vert = bgfx::copy(maybeVert.value().data(), maybeVert.value().size());
-        const bgfx::Memory *frag = bgfx::copy(maybeFrag.value().data(), maybeFrag.value().size());
-
-        bgfx::RendererType::Enum type = bgfx::getRendererType();
-        m_cWorldShader = bgfx::createProgram(bgfx::createShader(vert), bgfx::createShader(frag), true);
+        m_cWorldShader = ShaderCompileProgram("rock3d/r3d/shaders/world");
 
         m_cVertexLayout.begin()
             .add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)  // Pos

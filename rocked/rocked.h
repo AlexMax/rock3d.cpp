@@ -7,7 +7,6 @@
 
 #include "rock3d.h"
 
-#include "bgfx/bgfx.h"
 #include "imgui.h"
 
 #include "imgui_rock3d.h"

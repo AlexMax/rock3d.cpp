@@ -16,6 +16,7 @@
 #include <variant>
 #include <vector>
 
+#include "bgfx/bgfx.h"
 #include "fmt/format.h"
 #include "glm/glm.hpp"
 #include "./vendor/nonstd/expected.hpp"
@@ -46,5 +47,6 @@ using buffer_t = std::vector<uint8_t>;
 
 #include "./resource.h"
 #include "./engine.h"
+#include "./renderUtils.h"
 #include "./r3d/textures.h"
 #include "./r3d/render.h"

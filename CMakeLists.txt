@@ -20,6 +20,7 @@ find_package(SDL2 CONFIG REQUIRED)
 set(ROCK3D_SOURCES
     "rock3d/engine.cpp"
     "rock3d/event.cpp"
+    "rock3d/renderUtils.cpp"
     "rock3d/random.cpp"
     "rock3d/resource.cpp"
     "rock3d/r3d/render.cpp"
@@ -36,6 +37,7 @@ set(ROCK3D_HEADERS
     "rock3d/event.h"
     "rock3d/mathlib.h"
     "rock3d/platform.h"
+    "rock3d/renderUtils.h"
     "rock3d/random.h"
     "rock3d/resource.h"
     "rock3d/rock3d.h"

@@ -330,21 +330,9 @@ auto RockImGui::RenderDrawLists(ImDrawData *draw_data) -> void
 
 // *****************************************************************************
 
-auto RockImGui::CreateDeviceObjects() -> bool
+auto RockImGui::CreateDeviceObjects() -> void
 {
-    const auto maybeVert = rock3d::GetResource().ReadToBuffer("shaders/spirv15-12/rocked_shaders_imgui_vert.sc.bin");
-    const auto maybeFrag = rock3d::GetResource().ReadToBuffer("shaders/spirv15-12/rocked_shaders_imgui_frag.sc.bin");
-    if (!maybeVert.has_value() || !maybeFrag.has_value())
-    {
-        return false;
-    }
-
-    // [LM] AFAICT, these are freed by bgfx and there's no standalone free function.
-    const bgfx::Memory *vert = bgfx::copy(maybeVert.value().data(), maybeVert.value().size());
-    const bgfx::Memory *frag = bgfx::copy(maybeFrag.value().data(), maybeFrag.value().size());
-
-    bgfx::RendererType::Enum type = bgfx::getRendererType();
-    m_cShaderHandle = bgfx::createProgram(bgfx::createShader(vert), bgfx::createShader(frag), true);
+    m_cShaderHandle = rock3d::ShaderCompileProgram("rocked/shaders/imgui");
 
     m_cVertexLayout.begin()
         .add(bgfx::Attrib::Position, 2, bgfx::AttribType::Float)
@@ -355,8 +343,6 @@ auto RockImGui::CreateDeviceObjects() -> bool
     m_cAttribLocationTex = bgfx::createUniform("g_AttribLocationTex", bgfx::UniformType::Sampler);
 
     CreateFontsTexture();
-
-    return true;
 }
 
 // *****************************************************************************
