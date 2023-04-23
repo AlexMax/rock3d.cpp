@@ -10,8 +10,9 @@
 #include <array>
 #include <cmath>
 #include <random>
-#include <string>
 #include <string_view>
+#include <string>
+#include <unordered_map>
 #include <variant>
 #include <vector>
 
@@ -45,3 +46,5 @@ using buffer_t = std::vector<uint8_t>;
 
 #include "./resource.h"
 #include "./engine.h"
+#include "./r3d/textures.h"
+#include "./r3d/render.h"

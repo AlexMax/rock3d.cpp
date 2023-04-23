@@ -332,8 +332,8 @@ auto RockImGui::RenderDrawLists(ImDrawData *draw_data) -> void
 
 auto RockImGui::CreateDeviceObjects() -> bool
 {
-    const auto maybeVert = rock3d::GetResource().ReadToBuffer("shaders/spirv15-12/vs_ocornut_imgui.sc.bin");
-    const auto maybeFrag = rock3d::GetResource().ReadToBuffer("shaders/spirv15-12/fs_ocornut_imgui.sc.bin");
+    const auto maybeVert = rock3d::GetResource().ReadToBuffer("shaders/spirv15-12/rocked_shaders_imgui_vert.sc.bin");
+    const auto maybeFrag = rock3d::GetResource().ReadToBuffer("shaders/spirv15-12/rocked_shaders_imgui_frag.sc.bin");
     if (!maybeVert.has_value() || !maybeFrag.has_value())
     {
         return false;
