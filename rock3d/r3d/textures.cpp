@@ -47,7 +47,7 @@ class TexturesImpl final : public Textures
   public:
     auto AddAsset(const std::string_view strAssetPath) -> bool override
     {
-        auto maybeAsset = rock3d::GetResource().ReadToBuffer(strAssetPath);
+        auto maybeAsset = rock3d::GetAssets().ReadToBuffer(strAssetPath);
         if (!maybeAsset.has_value())
         {
             return false;

@@ -8,9 +8,13 @@
 namespace rock3d
 {
 
-class Resource
+class Assets
 {
   public:
+    virtual ~Assets()
+    {
+    }
+
     enum class readError_t
     {
         invalid_path,
@@ -22,6 +26,6 @@ class Resource
     virtual auto ReadToBuffer(std::string_view strPath) -> readResult_t = 0;
 };
 
-auto GetResource() -> Resource &;
+auto GetAssets() -> Assets &;
 
 } // namespace rock3d

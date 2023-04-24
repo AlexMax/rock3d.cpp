@@ -22,8 +22,8 @@ class EditorApp final : public rock3d::App
 
     auto Init() -> void override
     {
-        rock3d::GetResource().AddPath(std::string(rock3d::GetPlatform().GetBasePath()) + "../assets");
-        rock3d::GetResource().AddPath(std::string(rock3d::GetPlatform().GetBasePath()) + "assets");
+        rock3d::GetAssets().AddPath(std::string(rock3d::GetPlatform().GetBasePath()) + "../assets");
+        rock3d::GetAssets().AddPath(std::string(rock3d::GetPlatform().GetBasePath()) + "assets");
 
         ImGui::CreateContext();
 

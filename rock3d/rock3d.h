@@ -45,7 +45,7 @@ using buffer_t = std::vector<uint8_t>;
 
 #include "./platform.h"
 
-#include "./resource.h"
+#include "./assets.h"
 #include "./engine.h"
 #include "./renderUtils.h"
 #include "./r3d/textures.h"

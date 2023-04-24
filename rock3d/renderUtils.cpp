@@ -19,14 +19,14 @@ auto ShaderCompileProgram(const std::string_view strShaderDir) -> bgfx::ProgramH
     std::replace(shaderDir.begin(), shaderDir.end(), '/', '_');
 
     std::string vertFile = fmt::format("{}{}_vert.sc.bin", prefix, shaderDir);
-    const auto maybeVert = rock3d::GetResource().ReadToBuffer(vertFile);
+    const auto maybeVert = rock3d::GetAssets().ReadToBuffer(vertFile);
     if (!maybeVert.has_value())
     {
         rock3d::GetPlatform().FatalError(fmt::format("Missing shader file: {}", vertFile));
     }
 
     std::string fragFile = fmt::format("{}{}_frag.sc.bin", prefix, shaderDir);
-    const auto maybeFrag = rock3d::GetResource().ReadToBuffer(fragFile);
+    const auto maybeFrag = rock3d::GetAssets().ReadToBuffer(fragFile);
     if (!maybeFrag.has_value())
     {
         rock3d::GetPlatform().FatalError(fmt::format("Missing shader file: {}", fragFile));

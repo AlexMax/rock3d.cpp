@@ -35,7 +35,7 @@ static bool ContainsParentDir(const std::string_view strPath)
     return false;
 }
 
-class ResourceImpl final : public Resource
+class AssetsImpl final : public Assets
 {
     struct resLoc_s
     {
@@ -68,10 +68,10 @@ class ResourceImpl final : public Resource
     }
 };
 
-auto GetResource() -> Resource &
+auto GetAssets() -> Assets &
 {
-    static ResourceImpl resource;
-    return resource;
+    static AssetsImpl assets;
+    return assets;
 }
 
 } // namespace rock3d
