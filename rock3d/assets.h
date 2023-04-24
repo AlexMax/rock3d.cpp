@@ -11,9 +11,9 @@ namespace rock3d
 class Assets
 {
   public:
-    virtual ~Assets()
-    {
-    }
+    Assets() {}
+    virtual ~Assets() {}
+    ROCK3D_NOCOPY(Assets);
 
     enum class readError_t
     {

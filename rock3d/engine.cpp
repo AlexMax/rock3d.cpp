@@ -24,9 +24,7 @@ class Engine final
      *
      * @param cApp Pointer to application class.  Takes ownership.
      */
-    Engine(std::unique_ptr<App> cApp) : m_pApp(std::move(cApp))
-    {
-    }
+    Engine(std::unique_ptr<App> cApp) : m_pApp(std::move(cApp)) {}
 
     // *************************************************************************
 

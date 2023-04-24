@@ -401,15 +401,9 @@ using event_t = std::variant<eventKey_s, eventMouseMotion_s, eventMouseButton_s,
 class EventQueue
 {
   public:
+    EventQueue() {}
+    virtual ~EventQueue() {}
     ROCK3D_NOCOPY(EventQueue);
-
-    EventQueue()
-    {
-    }
-
-    virtual ~EventQueue()
-    {
-    }
 
     virtual auto Queue(event_t &&cEvent) -> void = 0;
     virtual auto Poll(event_t &cOutEvent) -> bool = 0;

@@ -45,15 +45,9 @@ class App
         uint64_t qwDeltaTime = 0;
     };
 
+    App() {}
+    virtual ~App() {}
     ROCK3D_NOCOPY(App);
-
-    App()
-    {
-    }
-
-    virtual ~App()
-    {
-    }
 
     virtual auto Config() -> const config_s & = 0;
     virtual auto Init() -> void = 0;

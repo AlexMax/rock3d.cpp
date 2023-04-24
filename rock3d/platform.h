@@ -18,15 +18,9 @@ namespace rock3d
 class Platform
 {
   public:
+    Platform() {}
+    virtual ~Platform() {}
     ROCK3D_NOCOPY(Platform);
-
-    Platform()
-    {
-    }
-
-    virtual ~Platform()
-    {
-    }
 
     enum class readError_e
     {

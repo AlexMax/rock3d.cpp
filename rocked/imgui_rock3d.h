@@ -23,11 +23,9 @@ class RockImGui final
     auto RockImGui::CreateFontsTexture() -> bool;
 
   public:
+    RockImGui() {}
+    virtual ~RockImGui() {}
     ROCK3D_NOCOPY(RockImGui);
-
-    RockImGui()
-    {
-    }
 
     auto Init(const int view) -> void;
     auto Shutdown() -> void;
