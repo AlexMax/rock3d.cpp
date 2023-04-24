@@ -19,6 +19,7 @@
 #include "bgfx/bgfx.h"
 #include "fmt/format.h"
 #include "glm/glm.hpp"
+#include "glm/gtc/quaternion.hpp"
 #include "./vendor/nonstd/expected.hpp"
 #include "./vendor/nonstd/scope.hpp"
 #include "./vendor/nonstd/span.hpp"
@@ -40,6 +41,7 @@ using buffer_t = std::vector<uint8_t>;
 
 #include "./bit.h"
 #include "./event.h"
+#include "./level.h"
 #include "./mathlib.h"
 #include "./random.h"
 
