@@ -43,6 +43,56 @@ auto SetSeed(const uint64_t qwSeed) -> void
 
 //******************************************************************************
 
+auto U32(Xoshiro256pp &cRNG) -> uint32_t
+{
+    return uint32_t(cRNG());
+}
+
+//******************************************************************************
+
+auto U32() -> uint32_t
+{
+    return U32(g_cRandom);
+}
+
+//******************************************************************************
+
+auto UniformU32(Xoshiro256pp &cRNG, const uint32_t dwUpperBound) -> uint32_t
+{
+    // Specific implementations of <random> are not guaranteed to be
+    // consistent, so we roll our own uniform distribution.
+    //
+    // Uniform distribution with integers is easy - if you generate a number
+    // that falls outside a range that would be uniform, discard your number
+    // and reroll.
+
+    if (dwUpperBound < 2)
+    {
+        return 0;
+    }
+
+    const uint32_t min = (0 - dwUpperBound) % dwUpperBound;
+
+    uint32_t res = 0;
+    for (;;)
+    {
+        res = U64();
+        if (res >= min)
+        {
+            return res % dwUpperBound;
+        }
+    }
+}
+
+//******************************************************************************
+
+auto UniformU32(const uint32_t qwUpperBound) -> uint32_t
+{
+    return UniformU32(g_cRandom, qwUpperBound);
+}
+
+//******************************************************************************
+
 auto U64(Xoshiro256pp &cRNG) -> uint64_t
 {
     return cRNG();
@@ -59,13 +109,29 @@ auto U64() -> uint64_t
 
 auto UniformU64(Xoshiro256pp &cRNG, const uint64_t qwUpperBound) -> uint64_t
 {
+    // Specific implementations of <random> are not guaranteed to be
+    // consistent, so we roll our own uniform distribution.
+    //
+    // Uniform distribution with integers is easy - if you generate a number
+    // that falls outside a range that would be uniform, discard your number
+    // and reroll.
+
     if (qwUpperBound < 2)
     {
         return 0;
     }
 
-    std::uniform_int_distribution<uint64_t> dist(0, qwUpperBound - 1);
-    return dist(cRNG);
+    const uint64_t min = (0 - qwUpperBound) % qwUpperBound;
+
+    uint64_t res = 0;
+    for (;;)
+    {
+        res = U64();
+        if (res >= min)
+        {
+            return res % qwUpperBound;
+        }
+    }
 }
 
 //******************************************************************************
@@ -79,8 +145,18 @@ auto UniformU64(const uint64_t qwUpperBound) -> uint64_t
 
 auto Float(Xoshiro256pp &cRNG) -> float
 {
-    std::uniform_real_distribution<float> dist(0.0f, 1.0f);
-    return dist(cRNG);
+    // Specific implementations of <random> are not guaranteed to be
+    // consistent, so we roll our own uniform distribution.
+    //
+    // Uniform distribution with floats is tricky because of precision
+    // differences in different number ranges.  The distribution inside
+    // [1.0, 2.0) is consistent, so we generate an integer that fits in
+    // the binary representation
+
+    constexpr uint32_t RANDOM_MASK = 0x7fffff;
+    constexpr uint32_t RANDOM_EXP = 0x3f800000;
+    const uint32_t rand = (U32() & RANDOM_MASK) | RANDOM_EXP;
+    return BitCast<float>(rand) - 1.0f;
 }
 
 //******************************************************************************

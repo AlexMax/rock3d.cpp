@@ -39,7 +39,7 @@ namespace rock3d
 using buffer_t = std::vector<uint8_t>;
 }
 
-#include "./bit.h"
+#include "./util.h"
 #include "./event.h"
 #include "./level.h"
 #include "./mathlib.h"

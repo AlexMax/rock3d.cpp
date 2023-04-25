@@ -164,6 +164,38 @@ auto SetSeed(Xoshiro256pp &cRNG, const uint64_t qwSeed) -> void;
 auto SetSeed(const uint64_t qwSeed) -> void;
 
 /**
+ * @brief Return a 32-bit integer from the passed RNG.
+ *
+ * @param cRNG RNG to use.
+ * @return A random 32-bit integer.
+ */
+auto U32(Xoshiro256pp &cRNG) -> uint32_t;
+
+/**
+ * @brief Return a 32-bit integer from the global RNG.
+ *
+ * @return A random 32-bit integer.
+ */
+auto U32() -> uint32_t;
+
+/**
+ * @brief Return a random uniformly-distributed integer from the passed RNG.
+ *
+ * @param cRNG RNG to use.
+ * @param qwUpperBound One more than the maximum number we want to return.
+ * @return A random integer in the half-open range [0, Upper Bound).
+ */
+auto UniformU32(Xoshiro256pp &cRNG, const uint32_t qwUpperBound) -> uint32_t;
+
+/**
+ * @brief Return a random uniformly-distributed integer from the passed RNG.
+ *
+ * @param qwUpperBound One more than the maximum number we want to return.
+ * @return A random integer in the half-open range [0, Upper Bound).
+ */
+auto UniformU32(const uint32_t qwUpperBound) -> uint32_t;
+
+/**
  * @brief Return a 64-bit integer from the passed RNG.
  *
  * @param cRNG RNG to use.

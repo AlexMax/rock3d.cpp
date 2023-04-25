@@ -34,7 +34,6 @@ endif()
 
 set(ROCK3D_HEADERS
     "rock3d/assets.h"
-    "rock3d/bit.h"
     "rock3d/engine.h"
     "rock3d/event.h"
     "rock3d/level.h"
@@ -43,6 +42,7 @@ set(ROCK3D_HEADERS
     "rock3d/renderUtils.h"
     "rock3d/random.h"
     "rock3d/rock3d.h"
+    "rock3d/util.h"
     "rock3d/r3d/render.h"
     "rock3d/r3d/textures.h")
 
