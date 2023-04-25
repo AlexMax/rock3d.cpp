@@ -10,6 +10,7 @@ from typing import NoReturn
 import os
 import subprocess
 import sys
+import time
 
 ROOT_DIR = Path(__file__).parent.parent
 ASSETS_DIR = ROOT_DIR / "build" / "assets"
@@ -33,8 +34,12 @@ class Shader:
     type: ShaderType
 
 
+def info(msg: str) -> None:
+    print(f"==>: {msg}", file=sys.stderr)
+
+
 def error(msg: str) -> NoReturn:
-    print(f"build_assets.py: {msg}", file=sys.stderr)
+    print(f"ERR: {msg}", file=sys.stderr)
     sys.exit(1)
 
 
@@ -70,11 +75,11 @@ def build_shaders() -> None:
 
     shaders: list[Shader] = [
         Shader(
-            ROOT_DIR / "rock3d" / "r3d" / "shaders" / "world" / "vert.sc",
+            ROOT_DIR / "src" / "r3d" / "shaders" / "world" / "vert.sc",
             ShaderType.vertex,
         ),
         Shader(
-            ROOT_DIR / "rock3d" / "r3d" / "shaders" / "world" / "frag.sc",
+            ROOT_DIR / "src" / "r3d" / "shaders" / "world" / "frag.sc",
             ShaderType.fragment,
         ),
         Shader(
@@ -87,7 +92,7 @@ def build_shaders() -> None:
 
     for shader in shaders:
         if not shader.path.exists():
-            error("File does not exist")
+            error(f"{shader.path} does not exist")
 
         out_filename = str(shader.path.relative_to(ROOT_DIR))
         out_filename = out_filename.replace("/", "_")
@@ -99,9 +104,14 @@ def build_shaders() -> None:
 
 
 def main() -> None:
+    start = time.monotonic()
+
     ASSETS_DIR.mkdir(parents=True, exist_ok=True)
 
     build_shaders()
+
+    total_time = time.monotonic() - start
+    info(f"Success: {total_time:.2f}s")
 
 
 if __name__ == "__main__":
