@@ -15,7 +15,7 @@ import { FlatContext } from './flatContext';
 const DEBUG: boolean = false;
 */
 
-#include "../rock3d.h"
+#include "rock3d/rock3d.h"
 
 namespace rock3d::r3D
 {
@@ -61,9 +61,7 @@ class RenderContext
      *
      * @param textures Texture atlas to bake.
      */
-    auto BakeTextureAtlas() -> void
-    {
-    }
+    auto BakeTextureAtlas() -> void {}
 
     /**
      * Add a wall to the set of things to render.

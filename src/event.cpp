@@ -7,7 +7,7 @@
  * @brief Event queue for inputs and such.
  */
 
-#include "rock3d.h"
+#include "rock3d/rock3d.h"
 
 namespace rock3d
 {

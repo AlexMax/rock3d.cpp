@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include "rock3d.h"
+#include "rock3d/rock3d.h"
 
 #include "imgui.h"
 

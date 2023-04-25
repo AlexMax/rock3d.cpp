@@ -8,7 +8,7 @@
  *        for many pieces for functionality.
  */
 
-#include "rock3d.h"
+#include "rock3d/rock3d.h"
 
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>

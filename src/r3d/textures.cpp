@@ -19,7 +19,7 @@
  * 3. This notice may not be removed or altered from any source distribution.
  */
 
-#include "../rock3d.h"
+#include "rock3d/rock3d.h"
 
 #include "bimg/bimg.h"
 #include "../vendor/stb_rect_pack.h"
@@ -113,9 +113,7 @@ class TexturesImpl final : public Textures
 
     //**************************************************************************
 
-    auto ToGPU() -> void override
-    {
-    }
+    auto ToGPU() -> void override {}
 
     //**************************************************************************
 

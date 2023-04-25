@@ -16,13 +16,14 @@
 #include <variant>
 #include <vector>
 
+#include "rock3d/nonstd/expected.hpp"
+#include "rock3d/nonstd/scope.hpp"
+#include "rock3d/nonstd/span.hpp"
+
 #include "bgfx/bgfx.h"
 #include "fmt/format.h"
 #include "glm/glm.hpp"
 #include "glm/gtc/quaternion.hpp"
-#include "./vendor/nonstd/expected.hpp"
-#include "./vendor/nonstd/scope.hpp"
-#include "./vendor/nonstd/span.hpp"
 
 #define ROCK3D_NOCOPY(cls)                                                                                             \
     cls(const cls &) = delete;                                                                                         \
