@@ -28,10 +28,10 @@ class Engine final
 
     // *************************************************************************
 
-    auto Init() -> void
+    auto Init(const args_t &nstrArgs) -> void
     {
-        GetPlatform().Init();
-        m_pApp->Init();
+        GetPlatform().Init(nstrArgs);
+        m_pApp->Init(nstrArgs);
     }
 
     // *************************************************************************
@@ -107,7 +107,7 @@ static std::unique_ptr<Engine> g_pEngine;
 
 // *************************************************************************
 
-[[noreturn]] auto EngineMain() -> void
+[[noreturn]] auto EngineMain(const args_t &nstrArgs) -> void
 {
     if (g_cDefinedApp.get() == nullptr)
     {
@@ -115,7 +115,7 @@ static std::unique_ptr<Engine> g_pEngine;
     }
 
     g_pEngine.reset(new rock3d::Engine(std::move(g_cDefinedApp)));
-    g_pEngine->Init();
+    g_pEngine->Init(nstrArgs);
 
     for (;;)
     {

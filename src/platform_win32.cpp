@@ -45,7 +45,8 @@ static auto UTF8ToWString(const std::string_view strInput) -> nonstd::expected<s
         return std::wstring();
     }
 
-    const int length = MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, strInput.data(), strInput.size(), nullptr, 0);
+    const int length =
+        MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, strInput.data(), int(strInput.size()), nullptr, 0);
     if (length == 0)
     {
         DWORD err = GetLastError();
@@ -59,8 +60,8 @@ static auto UTF8ToWString(const std::string_view strInput) -> nonstd::expected<s
     std::wstring rvo;
     rvo.resize(length); // Don't make room for a null terminator.
 
-    const int ok =
-        MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, strInput.data(), strInput.size(), rvo.data(), rvo.size());
+    const int ok = MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, strInput.data(), int(strInput.size()), rvo.data(),
+                                       int(rvo.size()));
     if (ok == 0)
     {
         return nonstd::make_unexpected(encodeError_e::internal_error);
@@ -81,8 +82,10 @@ class Win32Platform final : public Platform
     HWND handle = nullptr;
 
   public:
-    auto Init() -> void override
+    auto Init(const args_t &nstrArgs) -> void override
     {
+        (void)nstrArgs;
+
         // Initialize SDL.
         if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
         {
@@ -119,7 +122,7 @@ class Win32Platform final : public Platform
         bgfx::PlatformData pd{};
         pd.nwh = wmi.info.win.window;
         bgfx::setPlatformData(pd);
-        auto render = bgfx::renderFrame();
+        bgfx::renderFrame();
 
         bgfx::Init bgfx_init;
         bgfx_init.type = bgfx::RendererType::Vulkan;
@@ -130,7 +133,7 @@ class Win32Platform final : public Platform
         bgfx::init(bgfx_init);
 
         bgfx::setViewClear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x007ffffff, 1.0f, 0);
-        bgfx::setViewRect(0, 0, 0, res.x, res.y);
+        bgfx::setViewRect(0, 0, 0, uint16_t(res.x), uint16_t(res.y));
     }
 
     //**************************************************************************
@@ -245,7 +248,7 @@ class Win32Platform final : public Platform
         for (;;)
         {
             DWORD bytesRead = 0;
-            BOOL ok = ReadFile(fh, buffer.data(), buffer.size(), &bytesRead, nullptr);
+            BOOL ok = ReadFile(fh, buffer.data(), DWORD(buffer.size()), &bytesRead, nullptr);
             if (!ok)
             {
                 return nonstd::make_unexpected(readError_e::file_read_error);
@@ -386,6 +389,10 @@ auto GetPlatform() -> Platform &
 
 auto main(int argc, char *argv[]) -> int
 {
-    rock3d::EngineMain();
-    return EXIT_FAILURE;
+    std::vector<std::string_view> args;
+    for (int i = 0; i < argc; i++)
+    {
+        args.push_back(std::string_view(argv[i]));
+    }
+    rock3d::EngineMain(args);
 }

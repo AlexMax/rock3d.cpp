@@ -50,7 +50,7 @@ class App
     ROCK3D_NOCOPY(App);
 
     virtual auto Config() -> const config_s & = 0;
-    virtual auto Init() -> void = 0;
+    virtual auto Init(const args_t &nstrArgs) -> void = 0;
     virtual auto HandleEvent(const rock3d::event_t &cEvent) -> void = 0;
     virtual auto Tick(const tickParams_s &cParams) -> void = 0;
     virtual auto Render(const renderParams_s &cParams) -> void = 0;
@@ -60,7 +60,7 @@ class App
 /**
  * @brief Entry point of the game engine, using the defined app.
  */
-[[noreturn]] auto EngineMain() -> void;
+[[noreturn]] auto EngineMain(const args_t &nstrArgs) -> void;
 
 /**
  * @brief Shutdown the game as gracefully as we can.

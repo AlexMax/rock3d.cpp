@@ -15,12 +15,12 @@ class Assets
     virtual ~Assets() {}
     ROCK3D_NOCOPY(Assets);
 
-    enum class readError_t
+    enum class readError_e
     {
         invalid_path,
         not_found,
     };
-    using readResult_t = nonstd::expected<buffer_t, readError_t>;
+    using readResult_t = nonstd::expected<buffer_t, readError_e>;
 
     virtual auto AddPath(std::string_view strPath) -> void = 0;
     virtual auto ReadToBuffer(std::string_view strPath) -> readResult_t = 0;

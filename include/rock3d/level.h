@@ -8,54 +8,6 @@
 namespace rock3d
 {
 
-struct Polygon
-{
-    /**
-     * Edges of polygon, as ID's.
-     */
-    std::vector<size_t> nqwEdgeIDs;
-
-    /**
-     * Floor height.
-     */
-    float fFloorHeight;
-
-    /**
-     * Ceiling height.
-     */
-    float fCeilHeight;
-
-    /**
-     * Floor texture.
-     */
-    std::string strFloorTex;
-
-    /**
-     * Ceiling texture.
-     */
-    std::string strFeilTex;
-
-    /**
-     * Sector brightness.
-     */
-    glm::vec3 brightness;
-
-    /**
-     * Tessellation vertex cache.
-     */
-    std::vector<size_t> nqwVertsCache;
-
-    /**
-     * Tessellation index cache for floor.
-     */
-    std::vector<size_t> nqwFloorIndsCache;
-
-    /**
-     * Tessellation index cache for ceiling.
-     */
-    std::vector<size_t> nqwCeilIndsCache;
-};
-
 struct Edge
 {
     /**
@@ -107,6 +59,54 @@ struct Edge
     glm::vec2 cNormalCache;
 };
 
+struct Polygon
+{
+    /**
+     * Edges of polygon, as ID's.
+     */
+    std::vector<size_t> nqwEdgeIDs;
+
+    /**
+     * Floor height.
+     */
+    float fFloorHeight;
+
+    /**
+     * Ceiling height.
+     */
+    float fCeilHeight;
+
+    /**
+     * Floor texture.
+     */
+    std::string strFloorTex;
+
+    /**
+     * Ceiling texture.
+     */
+    std::string strCeilTex;
+
+    /**
+     * Sector brightness.
+     */
+    glm::vec3 cBrightness;
+
+    /**
+     * Tessellation vertex cache.
+     */
+    std::vector<size_t> nqwVertsCache;
+
+    /**
+     * Tessellation index cache for floor.
+     */
+    std::vector<size_t> nqwFloorIndsCache;
+
+    /**
+     * Tessellation index cache for ceiling.
+     */
+    std::vector<size_t> nqwCeilIndsCache;
+};
+
 struct Location
 {
     /**
@@ -152,5 +152,21 @@ struct Level
      */
     std::vector<Location> ncLocations;
 };
+
+enum class loadLevelError_e
+{
+    missing_asset,
+    json_parse_error,
+};
+
+using loadLevelResult_t = nonstd::expected<Level, loadLevelError_e>;
+
+/**
+ * @brief Load a level from an asset path.
+ *
+ * @param strPath Asset filepath.
+ * @return Constructed level, or error.
+ */
+auto LoadLevelAsset(const std::string_view strPath) -> loadLevelResult_t;
 
 } // namespace rock3d

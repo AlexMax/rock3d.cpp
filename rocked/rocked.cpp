@@ -20,7 +20,7 @@ class EditorApp final : public rock3d::App
         return CONFIG;
     }
 
-    auto Init() -> void override
+    auto Init(const rock3d::args_t &nstrArgs) -> void override
     {
         rock3d::GetAssets().AddPath(std::string(rock3d::GetPlatform().GetBasePath()) + "../assets");
         rock3d::GetAssets().AddPath(std::string(rock3d::GetPlatform().GetBasePath()) + "assets");

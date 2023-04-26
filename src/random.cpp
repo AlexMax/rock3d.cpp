@@ -76,7 +76,7 @@ auto UniformU32(Xoshiro256pp &cRNG, const uint32_t dwUpperBound) -> uint32_t
     uint32_t res = 0;
     for (;;)
     {
-        res = U64();
+        res = U32(cRNG);
         if (res >= min)
         {
             return res % dwUpperBound;
@@ -126,7 +126,7 @@ auto UniformU64(Xoshiro256pp &cRNG, const uint64_t qwUpperBound) -> uint64_t
     uint64_t res = 0;
     for (;;)
     {
-        res = U64();
+        res = U64(cRNG);
         if (res >= min)
         {
             return res % qwUpperBound;
@@ -155,7 +155,7 @@ auto Float(Xoshiro256pp &cRNG) -> float
 
     constexpr uint32_t RANDOM_MASK = 0x7fffff;
     constexpr uint32_t RANDOM_EXP = 0x3f800000;
-    const uint32_t rand = (U32() & RANDOM_MASK) | RANDOM_EXP;
+    const uint32_t rand = (U32(cRNG) & RANDOM_MASK) | RANDOM_EXP;
     return BitCast<float>(rand) - 1.0f;
 }
 

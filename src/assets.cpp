@@ -53,7 +53,7 @@ class AssetsImpl final : public Assets
     {
         if (ContainsParentDir(strPath))
         {
-            return nonstd::make_unexpected(readError_t::invalid_path);
+            return nonstd::make_unexpected(readError_e::invalid_path);
         }
         for (auto &resloc : m_ncResLocs)
         {
@@ -64,7 +64,7 @@ class AssetsImpl final : public Assets
                 return maybeFile.value();
             }
         }
-        return nonstd::make_unexpected(readError_t::not_found);
+        return nonstd::make_unexpected(readError_e::not_found);
     }
 };
 

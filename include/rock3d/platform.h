@@ -15,6 +15,11 @@
 namespace rock3d
 {
 
+/**
+ * @brief Arguments passed from command line, if any.
+ */
+using args_t = std::vector<std::string_view>;
+
 class Platform
 {
   public:
@@ -33,8 +38,10 @@ class Platform
 
     /**
      * @brief Initialize platform.
+     *
+     * @nstrArgs Arguments passed from command line, if any.
      */
-    virtual auto Init() -> void = 0;
+    virtual auto Init(const args_t &nstrArgs) -> void = 0;
 
     /**
      * @brief Shutdown platform.

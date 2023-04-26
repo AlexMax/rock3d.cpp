@@ -76,7 +76,7 @@ class TexturesImpl final : public Textures
         std::vector<stbrp_node> nodes;
         nodes.resize(size_t(ATLAS_SIZE));
         stbrp_context ctx;
-        stbrp_init_target(&ctx, ATLAS_SIZE, ATLAS_SIZE, nodes.data(), nodes.size());
+        stbrp_init_target(&ctx, ATLAS_SIZE, ATLAS_SIZE, nodes.data(), int(nodes.size()));
 
         // Set up a rects array so we have a place to write our coordinates.
         std::vector<stbrp_rect> rects;
@@ -89,7 +89,7 @@ class TexturesImpl final : public Textures
         }
 
         // Do the packing.
-        if (!stbrp_pack_rects(&ctx, rects.data(), rects.size()))
+        if (!stbrp_pack_rects(&ctx, rects.data(), int(rects.size())))
         {
             return false;
         }
@@ -109,6 +109,8 @@ class TexturesImpl final : public Textures
                 float(rect.y + rect.h) / ATLAS_SIZE,
             };
         }
+
+        return true;
     }
 
     //**************************************************************************
