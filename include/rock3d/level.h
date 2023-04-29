@@ -94,7 +94,7 @@ struct Polygon
     /**
      * Tessellation vertex cache.
      */
-    std::vector<size_t> nqwVertsCache;
+    std::vector<glm::vec2> nqwVertsCache;
 
     /**
      * Tessellation index cache for floor.
